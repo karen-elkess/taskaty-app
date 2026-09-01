@@ -73,7 +73,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {},
+               onPressed: () {
+  context.read<AddTaskCubit>().addTask(
+    title: titleController.text,
+    description: describtionController.text,
+    date: dateController.text,
+  );
+},
                 child: const Text("Add Task"),
               ),
             ],
