@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pop(context); 
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    Routes.HomeScreen,
+                    Routes.homeScreen,
                     (v) => false,
                   );
                 } else if (state is AuthError) {

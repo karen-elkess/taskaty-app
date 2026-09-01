@@ -20,7 +20,7 @@ class Taskaty extends StatelessWidget {
     if(SharedPrefs.getData(PrefsKeys.token)==null){
       return Routes.loginScreen;
     }else{
-      return Routes.HomeScreen;
+      return Routes.homeScreen;
     }
   }
 }

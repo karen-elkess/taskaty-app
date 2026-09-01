@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskaty_app/core/routes/routes.dart';
 import 'package:taskaty_app/features/auth/data/model/task_model.dart';
 import 'package:taskaty_app/features/home_screen/presentation/cubit/home_cubit.dart';
 
@@ -16,6 +17,12 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Home"),
         ),
+
+        floatingActionButton:FloatingActionButton(onPressed:(){
+          Navigator.pushNamed(context, Routes.addTaskScreen);
+        }, child: const Icon(Icons.add),
+       ) ,
+       
         body: BlocConsumer<HomeCubit, HomeState>(
           listener: (context, state) {
             Navigator.pop(context);
@@ -35,6 +42,10 @@ class HomeScreen extends StatelessWidget {
                         return TaskItem(
                           taskModel: tasks[index],
                           cubit: context.read<HomeCubit>(),
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.taskDetailsScreen,
+                            arguments: state.data[index].taskId);
+                          },
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(
@@ -55,10 +66,9 @@ class TaskItem extends StatefulWidget {
   final TaskModel? taskModel;
   final cubit;
   const TaskItem({
-    super.key,
-    this.taskModel,
-    this.cubit,
+    super.key,this.taskModel,this.cubit, this.onTap,
   });
+   final VoidCallback? onTap;
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -143,7 +153,7 @@ class _TaskItemState extends State<TaskItem> {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: Text("Edit task"),
+                                title: const Text("Edit task"),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -158,8 +168,7 @@ class _TaskItemState extends State<TaskItem> {
                                     TextFormField(
                                         decoration: InputDecoration(
                                             hintText:
-                                                widget.taskModel?.description ??
-                                                    "")),
+                                              widget.taskModel?.description ??"")),
                                     TextFormField(
                                         decoration: InputDecoration(
                                             hintText:
